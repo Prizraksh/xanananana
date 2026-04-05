@@ -1,4 +1,5 @@
 import asyncio
+import html
 import logging
 import os
 from pathlib import Path
@@ -13,6 +14,8 @@ from telegram.ext import (
     CommandHandler,
     ContextTypes,
     Defaults,
+    MessageHandler,
+    filters,
 )
 
 
@@ -73,6 +76,13 @@ PHOTO_CAPTION = "солнышки-кренделечки I&lt;3U"
 PHOTO_MISSING_TEXT = "Тут должна была быть наша самая тёплая фотка 🥺"
 
 GENERIC_ERROR_TEXT = "Небольшой технический пшик. Попробуй ещё раз, я рядом."
+FORWARD_TEMPLATE = (
+    "<b>Новое сообщение боту</b>\n"
+    "От: {user_name} ({user_tag})\n"
+    "chat_id: <code>{chat_id}</code>\n"
+    "Текст:\n"
+    "<blockquote>{message_text}</blockquote>"
+)
 
 
 # ------------------------------- LOGGING -------------------------------- #
@@ -265,6 +275,40 @@ async def on_callback(update: Update, context: ContextTypes.DEFAULT_TYPE) -> Non
     await safe_send_text(context=context, chat_id=chat_id, text=UNKNOWN_ACTION_TEXT)
 
 
+async def capture_user_message(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Логирует входящие текстовые сообщения и, при настройке, пересылает их админу."""
+    if update.message is None or update.effective_chat is None or update.effective_user is None:
+        return
+
+    user = update.effective_user
+    chat = update.effective_chat
+    text = update.message.text or ""
+
+    logger.info(
+        "Входящее сообщение: user_id=%s chat_id=%s username=%s text=%s",
+        user.id,
+        chat.id,
+        user.username,
+        text,
+    )
+
+    admin_chat_id = context.application.bot_data.get("admin_chat_id")
+    if not admin_chat_id:
+        return
+
+    user_name = html.escape(user.full_name or "Без имени")
+    user_tag = f"@{user.username}" if user.username else "без username"
+    escaped_text = html.escape(text)
+
+    forward_text = FORWARD_TEMPLATE.format(
+        user_name=user_name,
+        user_tag=user_tag,
+        chat_id=chat.id,
+        message_text=escaped_text,
+    )
+    await safe_send_text(context=context, chat_id=admin_chat_id, text=forward_text)
+
+
 async def error_handler(update: object, context: ContextTypes.DEFAULT_TYPE) -> None:
     """Глобальный обработчик ошибок, чтобы бот не падал из-за исключений."""
     logger.exception("Необработанная ошибка: %s", context.error)
@@ -289,8 +333,17 @@ def main() -> None:
     defaults = Defaults(parse_mode=ParseMode.HTML)
     application = ApplicationBuilder().token(token).defaults(defaults).build()
 
+    admin_chat_id_raw = os.getenv("ADMIN_CHAT_ID", "").strip()
+    if admin_chat_id_raw:
+        try:
+            application.bot_data["admin_chat_id"] = int(admin_chat_id_raw)
+            logger.info("Forwarding incoming messages enabled: ADMIN_CHAT_ID=%s", admin_chat_id_raw)
+        except ValueError:
+            logger.warning("ADMIN_CHAT_ID must be numeric. Forwarding is disabled.")
+
     application.add_handler(CommandHandler("start", start))
     application.add_handler(CallbackQueryHandler(on_callback))
+    application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, capture_user_message))
     application.add_error_handler(error_handler)
 
     logger.info("Бот запущен в polling-режиме")
