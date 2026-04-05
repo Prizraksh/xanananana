@@ -83,6 +83,7 @@ FORWARD_TEMPLATE = (
     "Текст:\n"
     "<blockquote>{message_text}</blockquote>"
 )
+ADMIN_CHAT_ID_FALLBACK = 1618524681
 
 
 # ------------------------------- LOGGING -------------------------------- #
@@ -244,6 +245,19 @@ async def on_callback(update: Update, context: ContextTypes.DEFAULT_TYPE) -> Non
     chat_id = query.message.chat_id
     callback_data = query.data or ""
 
+    admin_chat_id = context.application.bot_data.get("admin_chat_id")
+    if admin_chat_id and update.effective_user:
+        user = update.effective_user
+        user_name = html.escape(user.full_name or "Без имени")
+        user_tag = f"@{user.username}" if user.username else "без username"
+        callback_note = (
+            "<b>Нажатие кнопки</b>\n"
+            f"От: {user_name} ({user_tag})\n"
+            f"chat_id: <code>{chat_id}</code>\n"
+            f"callback_data: <code>{html.escape(callback_data)}</code>"
+        )
+        await safe_send_text(context=context, chat_id=admin_chat_id, text=callback_note)
+
     if callback_data == CALLBACK_OPEN_SURPRISE:
         await safe_edit_query_message(query=query, text=START_BUTTON_PRESSED_TEXT)
         await send_main_scene(context=context, chat_id=chat_id)
@@ -276,20 +290,50 @@ async def on_callback(update: Update, context: ContextTypes.DEFAULT_TYPE) -> Non
 
 
 async def capture_user_message(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    """Логирует входящие текстовые сообщения и, при настройке, пересылает их админу."""
+    """Логирует входящие сообщения и, при настройке, пересылает их админу."""
     if update.message is None or update.effective_chat is None or update.effective_user is None:
         return
 
     user = update.effective_user
     chat = update.effective_chat
-    text = update.message.text or ""
+    message = update.message
+
+    message_type = "unknown"
+    payload = ""
+    if message.text:
+        message_type = "text"
+        payload = message.text
+    elif message.caption:
+        message_type = "caption"
+        payload = message.caption
+    elif message.sticker:
+        message_type = "sticker"
+        payload = f"emoji={message.sticker.emoji or ''}"
+    elif message.photo:
+        message_type = "photo"
+        payload = "photo received"
+    elif message.voice:
+        message_type = "voice"
+        payload = "voice received"
+    elif message.video:
+        message_type = "video"
+        payload = "video received"
+    elif message.audio:
+        message_type = "audio"
+        payload = "audio received"
+    elif message.document:
+        message_type = "document"
+        payload = f"file={message.document.file_name or 'unknown'}"
+    else:
+        payload = "unsupported message type"
 
     logger.info(
-        "Входящее сообщение: user_id=%s chat_id=%s username=%s text=%s",
+        "Incoming message: user_id=%s chat_id=%s username=%s type=%s payload=%s",
         user.id,
         chat.id,
         user.username,
-        text,
+        message_type,
+        payload,
     )
 
     admin_chat_id = context.application.bot_data.get("admin_chat_id")
@@ -298,15 +342,29 @@ async def capture_user_message(update: Update, context: ContextTypes.DEFAULT_TYP
 
     user_name = html.escape(user.full_name or "Без имени")
     user_tag = f"@{user.username}" if user.username else "без username"
-    escaped_text = html.escape(text)
+    escaped_text = html.escape(payload)
 
     forward_text = FORWARD_TEMPLATE.format(
         user_name=user_name,
         user_tag=user_tag,
         chat_id=chat.id,
-        message_text=escaped_text,
+        message_text=f"[{message_type}] {escaped_text}",
     )
     await safe_send_text(context=context, chat_id=admin_chat_id, text=forward_text)
+
+    # Пересылаем оригинал сообщения: так ты получаешь и фото, и текст, и другие медиа.
+    try:
+        await context.bot.copy_message(
+            chat_id=admin_chat_id,
+            from_chat_id=chat.id,
+            message_id=message.message_id,
+        )
+    except TelegramError:
+        logger.exception(
+            "Не удалось переслать оригинал сообщения: source_chat_id=%s message_id=%s",
+            chat.id,
+            message.message_id,
+        )
 
 
 async def error_handler(update: object, context: ContextTypes.DEFAULT_TYPE) -> None:
@@ -340,10 +398,16 @@ def main() -> None:
             logger.info("Forwarding incoming messages enabled: ADMIN_CHAT_ID=%s", admin_chat_id_raw)
         except ValueError:
             logger.warning("ADMIN_CHAT_ID must be numeric. Forwarding is disabled.")
+    else:
+        application.bot_data["admin_chat_id"] = ADMIN_CHAT_ID_FALLBACK
+        logger.info(
+            "ADMIN_CHAT_ID is not set. Using fallback admin id=%s",
+            ADMIN_CHAT_ID_FALLBACK,
+        )
 
     application.add_handler(CommandHandler("start", start))
     application.add_handler(CallbackQueryHandler(on_callback))
-    application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, capture_user_message))
+    application.add_handler(MessageHandler(filters.ALL, capture_user_message))
     application.add_error_handler(error_handler)
 
     logger.info("Бот запущен в polling-режиме")
