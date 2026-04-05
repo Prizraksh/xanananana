@@ -1,4 +1,4 @@
-import asyncio
+﻿import asyncio
 import html
 import logging
 import os
@@ -27,35 +27,35 @@ CALLBACK_REPEAT_SCENE = "repeat_scene"
 
 
 # -------------------------------- TEXTS -------------------------------- #
-START_TEXT = "<i>speacil for одно beautiful солнышко✨</i>"
+START_TEXT = "<i>speacil for РѕРґРЅРѕ beautiful СЃРѕР»РЅС‹С€РєРѕвњЁ</i>"
 START_BUTTON_TEXT = "???"
-START_BUTTON_PRESSED_TEXT = "Тогда запускаю для тебя маленький тёплый сюрприз..."
+START_BUTTON_PRESSED_TEXT = "РўРѕРіРґР° Р·Р°РїСѓСЃРєР°СЋ РґР»СЏ С‚РµР±СЏ РјР°Р»РµРЅСЊРєРёР№ С‚С‘РїР»С‹Р№ СЃСЋСЂРїСЂРёР·..."
 
 MAIN_SCENE_MESSAGES: Sequence[Tuple[str, float]] = (
-    ("<b>Loading...</b> собираю для тебя немного тепла.", 1.3),
-    ("проверка связи: моя любимая Ксаночка на месте?", 1.5),
-    ("обнаружено: ты слишком добрая, светлая и красивая, сердце уже занято тобой на 100%.", 1.8),
-    ("если тебе сейчас грустно, это сообщение просто тихо тебя обнимает.", 2.0),
-    ("ты не обязана быть сильной каждую секунду.", 1.7),
-    ("иногда можно побыть уставшей, нежной и настоящей, и от этого ты не становишься менее прекрасной.", 2.4),
-    ("я очень хочу, чтобы прямо сейчас у тебя появилась хотя бы маленькая улыбка.", 2.2),
-    ("и у меня есть для тебя ещё кое-что...", 1.0),
+    ("<b>Loading...</b> СЃРѕР±РёСЂР°СЋ РґР»СЏ С‚РµР±СЏ РЅРµРјРЅРѕРіРѕ С‚РµРїР»Р°.", 1.3),
+    ("РїСЂРѕРІРµСЂРєР° СЃРІСЏР·Рё: РјРѕСЏ Р»СЋР±РёРјР°СЏ РљСЃР°РЅРѕС‡РєР° РЅР° РјРµСЃС‚Рµ?", 1.5),
+    ("РѕР±РЅР°СЂСѓР¶РµРЅРѕ: С‚С‹ СЃР»РёС€РєРѕРј РґРѕР±СЂР°СЏ, СЃРІРµС‚Р»Р°СЏ Рё РєСЂР°СЃРёРІР°СЏ, СЃРµСЂРґС†Рµ СѓР¶Рµ Р·Р°РЅСЏС‚Рѕ С‚РѕР±РѕР№ РЅР° 100%.", 1.8),
+    ("РµСЃР»Рё С‚РµР±Рµ СЃРµР№С‡Р°СЃ РіСЂСѓСЃС‚РЅРѕ, СЌС‚Рѕ СЃРѕРѕР±С‰РµРЅРёРµ РїСЂРѕСЃС‚Рѕ С‚РёС…Рѕ С‚РµР±СЏ РѕР±РЅРёРјР°РµС‚.", 2.0),
+    ("С‚С‹ РЅРµ РѕР±СЏР·Р°РЅР° Р±С‹С‚СЊ СЃРёР»СЊРЅРѕР№ РєР°Р¶РґСѓСЋ СЃРµРєСѓРЅРґСѓ.", 1.7),
+    ("РёРЅРѕРіРґР° РјРѕР¶РЅРѕ РїРѕР±С‹С‚СЊ СѓСЃС‚Р°РІС€РµР№, РЅРµР¶РЅРѕР№ Рё РЅР°СЃС‚РѕСЏС‰РµР№, Рё РѕС‚ СЌС‚РѕРіРѕ С‚С‹ РЅРµ СЃС‚Р°РЅРѕРІРёС€СЊСЃСЏ РјРµРЅРµРµ РїСЂРµРєСЂР°СЃРЅРѕР№.", 2.4),
+    ("СЏ РѕС‡РµРЅСЊ С…РѕС‡Сѓ, С‡С‚РѕР±С‹ РїСЂСЏРјРѕ СЃРµР№С‡Р°СЃ Сѓ С‚РµР±СЏ РїРѕСЏРІРёР»Р°СЃСЊ С…РѕС‚СЏ Р±С‹ РјР°Р»РµРЅСЊРєР°СЏ СѓР»С‹Р±РєР°.", 2.2),
+    ("Рё Сѓ РјРµРЅСЏ РµСЃС‚СЊ РґР»СЏ С‚РµР±СЏ РµС‰С‘ РєРѕРµ-С‡С‚Рѕ...", 1.0),
 )
 
-AFTER_SCENE_TEXT = "Ещёёё:"
-PASSENGER_BUTTON_TEXT = "это что за пассажир"
-CODE_BUTTON_TEXT = "жеск код"
-HUG_BUTTON_TEXT = "обнимаюю тебя"
+AFTER_SCENE_TEXT = "Р•С‰С‘С‘С‘:"
+PASSENGER_BUTTON_TEXT = "СЌС‚Рѕ С‡С‚Рѕ Р·Р° РїР°СЃСЃР°Р¶РёСЂ"
+CODE_BUTTON_TEXT = "Р¶РµСЃРє РєРѕРґ"
+HUG_BUTTON_TEXT = "РѕР±РЅРёРјР°СЋСЋ С‚РµР±СЏ"
 
-PASSENGER_HEADER_TEXT = "это я"
+PASSENGER_HEADER_TEXT = "СЌС‚Рѕ СЏ"
 EXTRA_SUPPORT_MESSAGES: Sequence[Tuple[str, float]] = (
-    ("ты правда очень-очень ценная. По-настоящему.", 1.5),
-    ("с тобой мир становится мягче и красивее.", 1.5),
-    ("даже когда тебе тяжело, ты всё равно удивительная.", 1.6),
-    ("я бы сейчас просто сел рядом и держал тебя за руку.", 0.6),
+    ("С‚С‹ РїСЂР°РІРґР° РѕС‡РµРЅСЊ-РѕС‡РµРЅСЊ С†РµРЅРЅР°СЏ. РџРѕ-РЅР°СЃС‚РѕСЏС‰РµРјСѓ.", 1.5),
+    ("СЃ С‚РѕР±РѕР№ РјРёСЂ СЃС‚Р°РЅРѕРІРёС‚СЃСЏ РјСЏРіС‡Рµ Рё РєСЂР°СЃРёРІРµРµ.", 1.5),
+    ("РґР°Р¶Рµ РєРѕРіРґР° С‚РµР±Рµ С‚СЏР¶РµР»Рѕ, С‚С‹ РІСЃС‘ СЂР°РІРЅРѕ СѓРґРёРІРёС‚РµР»СЊРЅР°СЏ.", 1.6),
+    ("СЏ Р±С‹ СЃРµР№С‡Р°СЃ РїСЂРѕСЃС‚Рѕ СЃРµР» СЂСЏРґРѕРј Рё РґРµСЂР¶Р°Р» С‚РµР±СЏ Р·Р° СЂСѓРєСѓ.", 0.6),
 )
 
-CODE_HEADER_TEXT = "Лови маленький жеск-код"
+CODE_HEADER_TEXT = "Р›РѕРІРё РјР°Р»РµРЅСЊРєРёР№ Р¶РµСЃРє-РєРѕРґ"
 PROGRAMMER_SECRET_CODE = (
     "<pre><code>mood = \"a little sad\"\n\n"
     "if you_are_here:\n"
@@ -64,23 +64,25 @@ PROGRAMMER_SECRET_CODE = (
     "    world = \"warmer\"</code></pre>"
 )
 PROGRAMMER_SECRET_TEXT = (
-    "здесь есть постоянный эффект: "
-    "когда думаю о тебе, внутри становится теплее."
+    "Р·РґРµСЃСЊ РµСЃС‚СЊ РїРѕСЃС‚РѕСЏРЅРЅС‹Р№ СЌС„С„РµРєС‚: "
+    "РєРѕРіРґР° РґСѓРјР°СЋ Рѕ С‚РµР±Рµ, РІРЅСѓС‚СЂРё СЃС‚Р°РЅРѕРІРёС‚СЃСЏ С‚РµРїР»РµРµ."
 )
 
-REPEAT_SCENE_TEXT = "Обнимаюю. Запускаю всё заново, для твоей улыбки."
-UNKNOWN_ACTION_TEXT = "Кажется, эта кнопочка потерялась. Нажми /start, и мы всё начнём заново."
+REPEAT_SCENE_TEXT = "РћР±РЅРёРјР°СЋСЋ. Р—Р°РїСѓСЃРєР°СЋ РІСЃС‘ Р·Р°РЅРѕРІРѕ, РґР»СЏ С‚РІРѕРµР№ СѓР»С‹Р±РєРё."
+UNKNOWN_ACTION_TEXT = "РљР°Р¶РµС‚СЃСЏ, СЌС‚Р° РєРЅРѕРїРѕС‡РєР° РїРѕС‚РµСЂСЏР»Р°СЃСЊ. РќР°Р¶РјРё /start, Рё РјС‹ РІСЃС‘ РЅР°С‡РЅС‘Рј Р·Р°РЅРѕРІРѕ."
 
 PHOTO_FILENAME = "photo.jpg"
-PHOTO_CAPTION = "солнышки-кренделечки I&lt;3U"
-PHOTO_MISSING_TEXT = "Тут должна была быть наша самая тёплая фотка 🥺"
+LOVE_PHOTO_FILENAME = "photo2.jpg"
+PHOTO_CAPTION = "СЃРѕР»РЅС‹С€РєРё-РєСЂРµРЅРґРµР»РµС‡РєРё I&lt;3U"
+PHOTO_MISSING_TEXT = "РўСѓС‚ РґРѕР»Р¶РЅР° Р±С‹Р»Р° Р±С‹С‚СЊ РЅР°С€Р° СЃР°РјР°СЏ С‚С‘РїР»Р°СЏ С„РѕС‚РєР° рџҐє"
+LOVE_PHOTO_MISSING_TEXT = "РўСѓС‚ РґРѕР»Р¶РЅР° Р±С‹С‚СЊ РІС‚РѕСЂР°СЏ С„РѕС‚РѕС‡РєР°, РЅРѕ РїРѕРєР° РЅРµ РЅР°С€Р»Р° photo2.jpg рџҐє"
 
-GENERIC_ERROR_TEXT = "Небольшой технический пшик. Попробуй ещё раз, я рядом."
+GENERIC_ERROR_TEXT = "РќРµР±РѕР»СЊС€РѕР№ С‚РµС…РЅРёС‡РµСЃРєРёР№ РїС€РёРє. РџРѕРїСЂРѕР±СѓР№ РµС‰С‘ СЂР°Р·, СЏ СЂСЏРґРѕРј."
 FORWARD_TEMPLATE = (
-    "<b>Новое сообщение боту</b>\n"
-    "От: {user_name} ({user_tag})\n"
+    "<b>РќРѕРІРѕРµ СЃРѕРѕР±С‰РµРЅРёРµ Р±РѕС‚Сѓ</b>\n"
+    "РћС‚: {user_name} ({user_tag})\n"
     "chat_id: <code>{chat_id}</code>\n"
-    "Текст:\n"
+    "РўРµРєСЃС‚:\n"
     "<blockquote>{message_text}</blockquote>"
 )
 ADMIN_CHAT_ID_FALLBACK = 1618524681
@@ -118,7 +120,7 @@ async def safe_send_text(
     text: str,
     reply_markup: Optional[InlineKeyboardMarkup] = None,
 ) -> None:
-    """Безопасная отправка текста, чтобы мелкие ошибки не роняли бота."""
+    """Р‘РµР·РѕРїР°СЃРЅР°СЏ РѕС‚РїСЂР°РІРєР° С‚РµРєСЃС‚Р°, С‡С‚РѕР±С‹ РјРµР»РєРёРµ РѕС€РёР±РєРё РЅРµ СЂРѕРЅСЏР»Рё Р±РѕС‚Р°."""
     try:
         await context.bot.send_message(
             chat_id=chat_id,
@@ -127,7 +129,7 @@ async def safe_send_text(
             reply_markup=reply_markup,
         )
     except TelegramError:
-        logger.exception("Не удалось отправить сообщение в chat_id=%s", chat_id)
+        logger.exception("РќРµ СѓРґР°Р»РѕСЃСЊ РѕС‚РїСЂР°РІРёС‚СЊ СЃРѕРѕР±С‰РµРЅРёРµ РІ chat_id=%s", chat_id)
 
 
 async def safe_edit_query_message(
@@ -135,7 +137,7 @@ async def safe_edit_query_message(
     text: str,
     reply_markup: Optional[InlineKeyboardMarkup] = None,
 ) -> None:
-    """Безопасное редактирование сообщения с inline-кнопками."""
+    """Р‘РµР·РѕРїР°СЃРЅРѕРµ СЂРµРґР°РєС‚РёСЂРѕРІР°РЅРёРµ СЃРѕРѕР±С‰РµРЅРёСЏ СЃ inline-РєРЅРѕРїРєР°РјРё."""
     try:
         await query.edit_message_text(
             text=text,
@@ -145,9 +147,9 @@ async def safe_edit_query_message(
     except BadRequest as exc:
         if "Message is not modified" in str(exc):
             return
-        logger.exception("Ошибка редактирования сообщения: %s", exc)
+        logger.exception("РћС€РёР±РєР° СЂРµРґР°РєС‚РёСЂРѕРІР°РЅРёСЏ СЃРѕРѕР±С‰РµРЅРёСЏ: %s", exc)
     except TelegramError:
-        logger.exception("Не удалось отредактировать сообщение callback-кнопки")
+        logger.exception("РќРµ СѓРґР°Р»РѕСЃСЊ РѕС‚СЂРµРґР°РєС‚РёСЂРѕРІР°С‚СЊ СЃРѕРѕР±С‰РµРЅРёРµ callback-РєРЅРѕРїРєРё")
 
 
 async def send_sequence_with_delay(
@@ -155,7 +157,7 @@ async def send_sequence_with_delay(
     chat_id: int,
     messages: Sequence[Tuple[str, float]],
 ) -> None:
-    """Последовательная отправка сообщений с паузами для эффекта живого сюрприза."""
+    """РџРѕСЃР»РµРґРѕРІР°С‚РµР»СЊРЅР°СЏ РѕС‚РїСЂР°РІРєР° СЃРѕРѕР±С‰РµРЅРёР№ СЃ РїР°СѓР·Р°РјРё РґР»СЏ СЌС„С„РµРєС‚Р° Р¶РёРІРѕРіРѕ СЃСЋСЂРїСЂРёР·Р°."""
     for text, delay_seconds in messages:
         await safe_send_text(context=context, chat_id=chat_id, text=text)
         if delay_seconds > 0:
@@ -163,12 +165,17 @@ async def send_sequence_with_delay(
 
 
 # --------------------------- SCENE FUNCTIONS ---------------------------- #
-async def send_final_photo(context: ContextTypes.DEFAULT_TYPE, chat_id: int) -> None:
-    """Финальная фотография из локального файла с мягким fallback при ошибке."""
-    photo_path = Path(__file__).resolve().parent / PHOTO_FILENAME
+async def send_local_photo(
+    context: ContextTypes.DEFAULT_TYPE,
+    chat_id: int,
+    filename: str,
+    missing_text: str,
+) -> None:
+    """Send local photo with fallback message if file is missing."""
+    photo_path = Path(__file__).resolve().parent / filename
 
     if not photo_path.exists():
-        await safe_send_text(context=context, chat_id=chat_id, text=PHOTO_MISSING_TEXT)
+        await safe_send_text(context=context, chat_id=chat_id, text=missing_text)
         return
 
     try:
@@ -180,12 +187,32 @@ async def send_final_photo(context: ContextTypes.DEFAULT_TYPE, chat_id: int) -> 
                 parse_mode=ParseMode.HTML,
             )
     except (OSError, TelegramError):
-        logger.exception("Не удалось отправить финальную фотографию")
-        await safe_send_text(context=context, chat_id=chat_id, text=PHOTO_MISSING_TEXT)
+        logger.exception("РќРµ СѓРґР°Р»РѕСЃСЊ РѕС‚РїСЂР°РІРёС‚СЊ С„РѕС‚Рѕ: %s", filename)
+        await safe_send_text(context=context, chat_id=chat_id, text=missing_text)
+
+
+async def send_final_photo(context: ContextTypes.DEFAULT_TYPE, chat_id: int) -> None:
+    """Final photo from photo.jpg with graceful fallback."""
+    await send_local_photo(
+        context=context,
+        chat_id=chat_id,
+        filename=PHOTO_FILENAME,
+        missing_text=PHOTO_MISSING_TEXT,
+    )
+
+
+async def send_love_photo(context: ContextTypes.DEFAULT_TYPE, chat_id: int) -> None:
+    """Photo sender for /love command (photo2.jpg)."""
+    await send_local_photo(
+        context=context,
+        chat_id=chat_id,
+        filename=LOVE_PHOTO_FILENAME,
+        missing_text=LOVE_PHOTO_MISSING_TEXT,
+    )
 
 
 async def send_main_scene(context: ContextTypes.DEFAULT_TYPE, chat_id: int) -> None:
-    """Основная трогательная сцена с финальной фотографией."""
+    """РћСЃРЅРѕРІРЅР°СЏ С‚СЂРѕРіР°С‚РµР»СЊРЅР°СЏ СЃС†РµРЅР° СЃ С„РёРЅР°Р»СЊРЅРѕР№ С„РѕС‚РѕРіСЂР°С„РёРµР№."""
     await send_sequence_with_delay(context=context, chat_id=chat_id, messages=MAIN_SCENE_MESSAGES)
     await send_final_photo(context=context, chat_id=chat_id)
     await safe_send_text(
@@ -197,7 +224,7 @@ async def send_main_scene(context: ContextTypes.DEFAULT_TYPE, chat_id: int) -> N
 
 
 async def send_extra_support(context: ContextTypes.DEFAULT_TYPE, chat_id: int) -> None:
-    """Дополнительный блок тёплой поддержки."""
+    """Р”РѕРїРѕР»РЅРёС‚РµР»СЊРЅС‹Р№ Р±Р»РѕРє С‚С‘РїР»РѕР№ РїРѕРґРґРµСЂР¶РєРё."""
     await send_sequence_with_delay(
         context=context,
         chat_id=chat_id,
@@ -206,7 +233,7 @@ async def send_extra_support(context: ContextTypes.DEFAULT_TYPE, chat_id: int) -
 
 
 async def send_programmer_secret(context: ContextTypes.DEFAULT_TYPE, chat_id: int) -> None:
-    """Милый программистский блок с кодом и коротким тёплым посланием."""
+    """РњРёР»С‹Р№ РїСЂРѕРіСЂР°РјРјРёСЃС‚СЃРєРёР№ Р±Р»РѕРє СЃ РєРѕРґРѕРј Рё РєРѕСЂРѕС‚РєРёРј С‚С‘РїР»С‹Рј РїРѕСЃР»Р°РЅРёРµРј."""
     secret_messages: Sequence[Tuple[str, float]] = (
         (PROGRAMMER_SECRET_CODE, 1.2),
         (PROGRAMMER_SECRET_TEXT, 0.0),
@@ -216,7 +243,7 @@ async def send_programmer_secret(context: ContextTypes.DEFAULT_TYPE, chat_id: in
 
 # ------------------------------ HANDLERS ------------------------------- #
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    """Обработчик команды /start."""
+    """РћР±СЂР°Р±РѕС‚С‡РёРє РєРѕРјР°РЅРґС‹ /start."""
     if update.message is None:
         return
 
@@ -227,16 +254,24 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
             reply_markup=build_start_keyboard(),
         )
     except TelegramError:
-        logger.exception("Ошибка при обработке /start")
+        logger.exception("РћС€РёР±РєР° РїСЂРё РѕР±СЂР°Р±РѕС‚РєРµ /start")
+
+
+async def love(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Handler for /love command: sends photo2.jpg."""
+    if update.effective_chat is None:
+        return
+
+    await send_love_photo(context=context, chat_id=update.effective_chat.id)
 
 
 async def on_callback(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    """Единый обработчик всех inline-кнопок."""
+    """Р•РґРёРЅС‹Р№ РѕР±СЂР°Р±РѕС‚С‡РёРє РІСЃРµС… inline-РєРЅРѕРїРѕРє."""
     query = update.callback_query
     if query is None:
         return
 
-    # Снимаем "часики" на кнопке.
+    # РЎРЅРёРјР°РµРј "С‡Р°СЃРёРєРё" РЅР° РєРЅРѕРїРєРµ.
     await query.answer()
 
     if query.message is None:
@@ -248,11 +283,11 @@ async def on_callback(update: Update, context: ContextTypes.DEFAULT_TYPE) -> Non
     admin_chat_id = context.application.bot_data.get("admin_chat_id")
     if admin_chat_id and update.effective_user:
         user = update.effective_user
-        user_name = html.escape(user.full_name or "Без имени")
-        user_tag = f"@{user.username}" if user.username else "без username"
+        user_name = html.escape(user.full_name or "Р‘РµР· РёРјРµРЅРё")
+        user_tag = f"@{user.username}" if user.username else "Р±РµР· username"
         callback_note = (
-            "<b>Нажатие кнопки</b>\n"
-            f"От: {user_name} ({user_tag})\n"
+            "<b>РќР°Р¶Р°С‚РёРµ РєРЅРѕРїРєРё</b>\n"
+            f"РћС‚: {user_name} ({user_tag})\n"
             f"chat_id: <code>{chat_id}</code>\n"
             f"callback_data: <code>{html.escape(callback_data)}</code>"
         )
@@ -290,7 +325,7 @@ async def on_callback(update: Update, context: ContextTypes.DEFAULT_TYPE) -> Non
 
 
 async def capture_user_message(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    """Логирует входящие сообщения и, при настройке, пересылает их админу."""
+    """Р›РѕРіРёСЂСѓРµС‚ РІС…РѕРґСЏС‰РёРµ СЃРѕРѕР±С‰РµРЅРёСЏ Рё, РїСЂРё РЅР°СЃС‚СЂРѕР№РєРµ, РїРµСЂРµСЃС‹Р»Р°РµС‚ РёС… Р°РґРјРёРЅСѓ."""
     if update.message is None or update.effective_chat is None or update.effective_user is None:
         return
 
@@ -340,8 +375,8 @@ async def capture_user_message(update: Update, context: ContextTypes.DEFAULT_TYP
     if not admin_chat_id:
         return
 
-    user_name = html.escape(user.full_name or "Без имени")
-    user_tag = f"@{user.username}" if user.username else "без username"
+    user_name = html.escape(user.full_name or "Р‘РµР· РёРјРµРЅРё")
+    user_tag = f"@{user.username}" if user.username else "Р±РµР· username"
     escaped_text = html.escape(payload)
 
     forward_text = FORWARD_TEMPLATE.format(
@@ -352,7 +387,7 @@ async def capture_user_message(update: Update, context: ContextTypes.DEFAULT_TYP
     )
     await safe_send_text(context=context, chat_id=admin_chat_id, text=forward_text)
 
-    # Пересылаем оригинал сообщения: так ты получаешь и фото, и текст, и другие медиа.
+    # РџРµСЂРµСЃС‹Р»Р°РµРј РѕСЂРёРіРёРЅР°Р» СЃРѕРѕР±С‰РµРЅРёСЏ: С‚Р°Рє С‚С‹ РїРѕР»СѓС‡Р°РµС€СЊ Рё С„РѕС‚Рѕ, Рё С‚РµРєСЃС‚, Рё РґСЂСѓРіРёРµ РјРµРґРёР°.
     try:
         await context.bot.copy_message(
             chat_id=admin_chat_id,
@@ -361,15 +396,15 @@ async def capture_user_message(update: Update, context: ContextTypes.DEFAULT_TYP
         )
     except TelegramError:
         logger.exception(
-            "Не удалось переслать оригинал сообщения: source_chat_id=%s message_id=%s",
+            "РќРµ СѓРґР°Р»РѕСЃСЊ РїРµСЂРµСЃР»Р°С‚СЊ РѕСЂРёРіРёРЅР°Р» СЃРѕРѕР±С‰РµРЅРёСЏ: source_chat_id=%s message_id=%s",
             chat.id,
             message.message_id,
         )
 
 
 async def error_handler(update: object, context: ContextTypes.DEFAULT_TYPE) -> None:
-    """Глобальный обработчик ошибок, чтобы бот не падал из-за исключений."""
-    logger.exception("Необработанная ошибка: %s", context.error)
+    """Р“Р»РѕР±Р°Р»СЊРЅС‹Р№ РѕР±СЂР°Р±РѕС‚С‡РёРє РѕС€РёР±РѕРє, С‡С‚РѕР±С‹ Р±РѕС‚ РЅРµ РїР°РґР°Р» РёР·-Р·Р° РёСЃРєР»СЋС‡РµРЅРёР№."""
+    logger.exception("РќРµРѕР±СЂР°Р±РѕС‚Р°РЅРЅР°СЏ РѕС€РёР±РєР°: %s", context.error)
 
     if isinstance(update, Update) and update.effective_chat:
         await safe_send_text(
@@ -384,8 +419,8 @@ def main() -> None:
     token = '8768591351:AAHFtpDQKLO9NomP8scFEJf6YBcfCZcECT4'
     if not token:
         raise RuntimeError(
-            "Переменная окружения BOT_TOKEN не найдена. "
-            "Добавь токен и запусти бота снова."
+            "РџРµСЂРµРјРµРЅРЅР°СЏ РѕРєСЂСѓР¶РµРЅРёСЏ BOT_TOKEN РЅРµ РЅР°Р№РґРµРЅР°. "
+            "Р”РѕР±Р°РІСЊ С‚РѕРєРµРЅ Рё Р·Р°РїСѓСЃС‚Рё Р±РѕС‚Р° СЃРЅРѕРІР°."
         )
 
     defaults = Defaults(parse_mode=ParseMode.HTML)
@@ -406,13 +441,15 @@ def main() -> None:
         )
 
     application.add_handler(CommandHandler("start", start))
+    application.add_handler(CommandHandler("love", love))
     application.add_handler(CallbackQueryHandler(on_callback))
     application.add_handler(MessageHandler(filters.ALL, capture_user_message))
     application.add_error_handler(error_handler)
 
-    logger.info("Бот запущен в polling-режиме")
+    logger.info("Р‘РѕС‚ Р·Р°РїСѓС‰РµРЅ РІ polling-СЂРµР¶РёРјРµ")
     application.run_polling()
 
 
 if __name__ == "__main__":
     main()
+
