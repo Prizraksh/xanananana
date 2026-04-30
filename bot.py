@@ -423,7 +423,7 @@ async def home(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         await safe_send_text(
             context=context,
             chat_id=chat_id,
-            text=FAKE_ERROR_TEXT= "<code>BadRequest: host server check failed.</code>"
+            text= "<code>BadRequest: host server check failed.</code>"
         )
 
     await asyncio.sleep(0.5)
