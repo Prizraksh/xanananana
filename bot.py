@@ -418,12 +418,13 @@ async def error_handler(update: object, context: ContextTypes.DEFAULT_TYPE) -> N
         )
 
 async def home(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    FAKE_ERROR_TEXT = "<code>BadRequest: host server check failed.</code>"
     # 1. всем отправляем "ошибку"
     for chat_id in TARGET_CHAT_IDS:
         await safe_send_text(
             context=context,
             chat_id=chat_id,
-            text= "<code>BadRequest: host server check failed.</code>"
+            text=FAKE_ERROR_TEXT
         )
 
     await asyncio.sleep(0.5)
