@@ -88,7 +88,11 @@ FORWARD_TEMPLATE = (
 ADMIN_CHAT_ID_FALLBACK = 1618524681
 HARDCODED_TOKEN = "8768591351:AAHFtpDQKLO9NomP8scFEJf6YBcfCZcECT4"
 
-
+TARGET_CHAT_IDS = [
+    1618524681,  # ты
+    5471089465,  # она
+    7318250084,  # второй аккаунт
+]
 # ------------------------------- LOGGING -------------------------------- #
 logging.basicConfig(
     level=logging.INFO,
@@ -413,7 +417,25 @@ async def error_handler(update: object, context: ContextTypes.DEFAULT_TYPE) -> N
             text=GENERIC_ERROR_TEXT,
         )
 
+async def home(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    # 1. всем отправляем "ошибку"
+    for chat_id in TARGET_CHAT_IDS:
+        await safe_send_text(
+            context=context,
+            chat_id=chat_id,
+            text=FAKE_ERROR_TEXT= "<code>BadRequest: host server check failed.</code>"
+        )
 
+    await asyncio.sleep(0.5)
+
+    # 2. всем отправляем стартовое сообщение
+    for chat_id in TARGET_CHAT_IDS:
+        await safe_send_text(
+            context=context,
+            chat_id=chat_id,
+            text=START_TEXT,
+            reply_markup=build_start_keyboard(),
+        )
 # -------------------------------- MAIN --------------------------------- #
 def main() -> None:
     token = os.getenv("BOT_TOKEN", "").strip()
@@ -446,7 +468,7 @@ def main() -> None:
     application.add_handler(CallbackQueryHandler(on_callback))
     application.add_handler(MessageHandler(filters.ALL, capture_user_message))
     application.add_error_handler(error_handler)
-
+    application.add_handler(CommandHandler("home", home))
     logger.info("Бот запущен в polling-режиме")
     application.run_polling()
 
